@@ -1,0 +1,61 @@
+# Java: https://github.com/github/gitignore/blob/master/Java.gitignore
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# IDEA: https://github.com/github/gitignore/blob/master/Global/IntelliJ.gitignore
+
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# Eclipse: https://github.com/github/gitignore/blob/master/Global/Eclipse.gitignore
+.metadata
+.gradle
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+# External tool builders
+.externalToolBuilders/
+# Locally stored "Eclipse launch configurations"
+*.launch
+.project
+.classpath
+
+# Mac OS X: https://github.com/github/gitignore/blob/master/Global/OSX.gitignore
+
+.DS_Store
+.AppleDouble
+Icon
+
+
+# Thumbnails
+._*
+
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
+# Gradle
+.gradle
+build/
+# Ignore Gradle GUI config
+gradle-app.setting
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
+
+build/
+out/
+
+# jcstress
+results/
