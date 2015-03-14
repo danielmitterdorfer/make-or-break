@@ -8,32 +8,41 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Benchmark                                       Mode  Samples     Score  Score error   Units
- * n.m.m.PointerChasingBenchmark.sumArray         thrpt      200  2755,078        7,899  ops/us
- * n.m.m.PointerChasingBenchmark.sumArrayList     thrpt      200   781,525        8,888  ops/us
- * n.m.m.PointerChasingBenchmark.sumLinkedList    thrpt      200   219,538        1,969  ops/us
+ * Should be run with "-gc true"
  */
 @State(Scope.Benchmark)
 @BenchmarkMode(Mode.Throughput)
-@OutputTimeUnit(TimeUnit.MICROSECONDS)
+@OutputTimeUnit(TimeUnit.MILLISECONDS)
 public class PointerChasingBenchmark {
-    private static final int PROBLEM_SIZE = 64 * 1024;
+    @Param({"1024", "2048", "4096", "8192", "16384", "32768"})
+    public int problemSize;
 
-    private final int[] array = new int[PROBLEM_SIZE];
-    private final List<Integer> linkedList = new LinkedList<>();
-    private final List<Integer> arrayList = new ArrayList<>(PROBLEM_SIZE);
+    private int[] array;
+    private List<Integer> linkedList;
+    private List<Integer> arrayList;
 
     @Setup
     public void setUp() {
-        for (int idx = 0; idx < PROBLEM_SIZE; idx++) {
-            linkedList.add(idx);
-            arrayList.add(idx);
+        array = new int[problemSize];
+        linkedList = new LinkedList<>();
+        arrayList = new ArrayList<>(problemSize);
+
+        // initialize separately to minimize influence of other lists on memory layout. Every structure should
+        // allocate space without influence on the memory layout of others
+        for (int idx = 0; idx < problemSize; idx++) {
+            // explicitly create a new Integer object without using Integer's cache to minimize the
+            // risk of introducing additional non-linearity to memory layout.
+            linkedList.add(new Integer(idx));
+        }
+        for (int idx = 0; idx < problemSize; idx++) {
+            arrayList.add(new Integer(idx));
+        }
+        for (int idx = 0; idx < problemSize; idx++) {
             array[idx] = idx;
         }
     }
 
     @Benchmark
-    @OperationsPerInvocation(PROBLEM_SIZE)
     public long sumLinkedList() {
         long sum = 0;
         for (int val : linkedList) {
@@ -43,7 +52,6 @@ public class PointerChasingBenchmark {
     }
 
     @Benchmark
-    @OperationsPerInvocation(PROBLEM_SIZE)
     public long sumArrayList() {
         long sum = 0;
         for (int val : arrayList) {
@@ -53,7 +61,6 @@ public class PointerChasingBenchmark {
     }
 
     @Benchmark
-    @OperationsPerInvocation(PROBLEM_SIZE)
     public long sumArray() {
         long sum = 0;
         for (int val : array) {
