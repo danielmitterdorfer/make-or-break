@@ -40,7 +40,7 @@ repositories {
     mavenCentral()
 }
 
-ext.jmhVersion = '1.6.3'
+ext.jmhVersion = '1.7'
 
 dependencies {
     compile "org.openjdk.jmh:jmh-core:$jmhVersion"
