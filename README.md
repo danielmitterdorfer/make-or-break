@@ -1,7 +1,7 @@
 Make or Break
 =============
 
-This is an accompanying demo project for my talk "Make or Break: The Big Impact of Small Changes on Performance in Java Programs" (link to the slide follows around the end of March). It contains [JMH](http://openjdk.java.net/projects/code-tools/jmh) microbenchmarks to demonstrate different effects of Java code on CPU level.
+This is an accompanying demo project for my talk ["Make or Break: The Big Impact of Small Changes on Performance in Java Programs"](http://daniel.mitterdorfer.name/talks/2015/make-or-break/). It contains [JMH](http://openjdk.java.net/projects/code-tools/jmh) microbenchmarks to demonstrate different effects of Java code on CPU level.
 
 # Getting Started
 
