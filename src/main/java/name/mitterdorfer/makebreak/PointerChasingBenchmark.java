@@ -17,13 +17,15 @@ public class PointerChasingBenchmark {
     @Param({"1024", "2048", "4096", "8192", "16384", "32768"})
     public int problemSize;
 
-    private int[] array;
+    private int[] primitiveArray;
+    private Integer[] objectArray;
     private List<Integer> linkedList;
     private List<Integer> arrayList;
 
     @Setup
     public void setUp() {
-        array = new int[problemSize];
+        primitiveArray = new int[problemSize];
+        objectArray = new Integer[problemSize];
         linkedList = new LinkedList<>();
         arrayList = new ArrayList<>(problemSize);
 
@@ -38,13 +40,16 @@ public class PointerChasingBenchmark {
             arrayList.add(new Integer(idx));
         }
         for (int idx = 0; idx < problemSize; idx++) {
-            array[idx] = idx;
+            primitiveArray[idx] = idx;
+        }
+        for (int idx = 0; idx < problemSize; idx++) {
+            objectArray[idx] = new Integer(idx);
         }
     }
 
     @Benchmark
-    public long sumLinkedList() {
-        long sum = 0;
+    public int sumLinkedList() {
+        int sum = 0;
         for (int val : linkedList) {
             sum += val;
         }
@@ -52,8 +57,8 @@ public class PointerChasingBenchmark {
     }
 
     @Benchmark
-    public long sumArrayList() {
-        long sum = 0;
+    public int sumArrayList() {
+        int sum = 0;
         for (int val : arrayList) {
             sum += val;
         }
@@ -61,9 +66,18 @@ public class PointerChasingBenchmark {
     }
 
     @Benchmark
-    public long sumArray() {
-        long sum = 0;
-        for (int val : array) {
+    public int sumPrimitiveArray() {
+        int sum = 0;
+        for (int val : primitiveArray) {
+            sum += val;
+        }
+        return sum;
+    }
+
+    @Benchmark
+    public int sumObjectArray() {
+        int sum = 0;
+        for (int val : objectArray) {
             sum += val;
         }
         return sum;
